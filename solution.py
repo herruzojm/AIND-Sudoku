@@ -22,6 +22,10 @@ def assign_value(values, box, value):
     Please use this function to update your values dictionary!
     Assigns a value to a given box. If it updates the board record it.
     """
+    # Don't waste memory appending actions that don't actually change any values
+    if values[box] == value:
+        return values
+
     values[box] = value
     if len(value) == 1:
         assignments.append(values.copy())
@@ -179,7 +183,8 @@ def naked_twins(values):
                             values = assign_value(values, box, values[box].replace(digit,''))
                         #print(box, ' new value ', values[box])
     return values
-        
+      
+    
 def print_len(values):
     print()
     print('actual len:', sum(len(v) for v in values.values()))
@@ -194,6 +199,6 @@ if __name__ == '__main__':
     
     try:
         from visualize import visualize_assignments
-        visualize_assignments(assignments)
+        #visualize_assignments(assignments)
     except:
         print('We could not visualize your board due to a pygame issue. Not a problem! It is not a requirement.')
